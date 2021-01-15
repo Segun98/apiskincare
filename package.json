@@ -1,0 +1,61 @@
+{
+  "name": "apiskincare",
+  "version": "1.0.0",
+  "description": "the api powering an ecommerce app",
+  "main": "index.js",
+  "engines": {
+    "node": "12.18.3",
+    "npm": "6.13.7"
+  },
+  "scripts": {
+    "start": "node ./bin/cluster.js",
+    "dev": "nodemon index",
+    "devcluster": "nodemon ./bin/cluster.js",
+    "startcluster": "node ./bin/cluster.js",
+    "pm2": "pm2 start /index.js -i max",
+    "stoppm2": "pm2 stop /index.js --watch",
+    "listPm2": "pm2 ls",
+    "log": "pm2 log"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Segun98/api-ecommerce.git"
+  },
+  "keywords": [
+    "e-commerce"
+  ],
+  "author": "segun olanitori",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Segun98/api-ecommerce/issues"
+  },
+  "homepage": "https://github.com/Segun98/api-ecommerce#readme",
+  "dependencies": {
+    "@sendgrid/mail": "^7.2.3",
+    "apollo-server-express": "^2.16.1",
+    "bcryptjs": "^2.4.3",
+    "cloudinary": "^1.22.0",
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.5",
+    "cookie-session": "^1.4.0",
+    "cors": "^2.8.5",
+    "dataloader": "^2.0.0",
+    "datauri": "^3.0.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-rate-limit": "^5.2.3",
+    "graphql-middleware": "^4.0.2",
+    "helmet": "^4.2.0",
+    "joi": "^17.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "multer": "^1.4.2",
+    "node-fetch": "^2.6.1",
+    "passport": "^0.4.1",
+    "passport-google-oauth2": "^0.2.0",
+    "pg": "^8.3.0",
+    "uuid": "^8.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
