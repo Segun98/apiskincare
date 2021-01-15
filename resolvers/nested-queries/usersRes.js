@@ -33,7 +33,22 @@ async function customerOrders(parent, {}, {
 
 }
 
+
+//works specifically with homeProducts query
+async function homeProducts(parent, {}, {
+    pool
+}) {
+    try {
+        let products = await pool.query(`select * from products where creator_id= $1 limit 8`, [parent.id])
+        return products.rows
+    } catch (err) {
+        throw new Error(err.message)
+    }
+
+}
+
 module.exports = {
     usersProducts,
-    customerOrders
+    customerOrders,
+    homeProducts
 }

@@ -92,6 +92,18 @@ module.exports = {
         } catch (err) {
             throw new Error(err.message)
         }
-    }
+    },
+
+    //works specifically with homeProducts in usersRes file in nested queries. fetch the stores to be displayed in the home page
+    async homeStores(_, {}, {
+        pool
+    }) {
+        try {
+            const stores = await pool.query(`select * from users where role = $1 and pending = $2 and online = $3 order by completed_qty desc limit 8`, ["vendor", "false", "true"])
+            return stores.rows
+        } catch (err) {
+            throw new Error(err.message)
+        }
+    },
 
 }

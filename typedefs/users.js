@@ -48,6 +48,9 @@ type users{
     #nested resolver
     usersProducts:[productsRes]
     customerOrders:[orders]
+
+    # this is custom. returns the products of users on the home page
+    homeProducts:[productsRes]
   }
 
   type loginRes  {
