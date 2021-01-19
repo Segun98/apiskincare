@@ -36,7 +36,7 @@ module.exports = gql `
 
     #by category
     byCategory(category:String! limit:Int offset:Int): [productsRes]
-    partyCategory(party_category:String limit:Int offset:Int): [productsRes]
+    mainCategory(main_category:String limit:Int offset:Int): [productsRes]
 
     #gets a product but for edit
     editProductPage(id:ID!):productsRes
