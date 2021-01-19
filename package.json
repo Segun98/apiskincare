@@ -1,7 +1,7 @@
 {
-  "name": "apiskincare",
+  "name": "tadlaceapi",
   "version": "1.0.0",
-  "description": "the api powering an ecommerce app",
+  "description": "API for Tadlace",
   "main": "index.js",
   "engines": {
     "node": "12.18.3",

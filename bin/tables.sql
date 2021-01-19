@@ -38,7 +38,7 @@ CREATE TABLE users
         description Text,
         price int NOT NULL,
         category VARCHAR(255),
-        party_category VARCHAR(255),
+        main_category VARCHAR(255),
         image text
         ARRAY[4],
         featured boolean DEFAULT 'false',
