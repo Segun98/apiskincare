@@ -14,7 +14,7 @@ module.exports = {
     * @param {String} obj.description
     * @param {String} obj.price
     * @param {String} obj.category
-    * @param {String} obj.party_category
+    * @param {String} obj.main_category
     * @param {String} obj.images
     * @param {number} obj.available_qty
     * @param {number} obj.stk
@@ -26,7 +26,7 @@ module.exports = {
         description,
         price,
         category,
-        party_category,
+        main_category,
         images,
         available_qty
     }, {
@@ -52,7 +52,7 @@ module.exports = {
                 description,
                 price,
                 category,
-                party_category,
+                main_category,
                 images,
                 available_qty,
                 creator_id) 
@@ -62,7 +62,7 @@ module.exports = {
                     description,
                     price,
                     category,
-                    party_category,
+                    main_category,
                     images,
                     available_qty,
                     req.payload.user_id
@@ -86,7 +86,7 @@ module.exports = {
         description,
         price,
         category,
-        party_category,
+        main_category,
         images,
         in_stock,
         available_qty,
@@ -102,11 +102,11 @@ module.exports = {
         }
 
         try {
-            await pool.query(`update products set name = $2, description = $3, price = $4, category = $5,party_category=$6, images = $7, in_stock = $8, available_qty=$9 where id = $1`, [id, name,
+            await pool.query(`update products set name = $2, description = $3, price = $4, category = $5,main_category=$6, images = $7, in_stock = $8, available_qty=$9 where id = $1`, [id, name,
                 description,
                 price,
                 category,
-                party_category,
+                main_category,
                 images,
                 in_stock,
                 available_qty
