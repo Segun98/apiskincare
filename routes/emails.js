@@ -1,33 +1,19 @@
+//@ts-check
+
 const express = require('express');
 const router = express.Router();
 const sgMail = require('@sendgrid/mail');
 
+const {
+    OrderToCustomer,
+    OrderToVendor
+} = require("../controllers/OrdersController")
+
+
 sgMail.setApiKey(process.env.SEND_GRID_KEY);
 
-router.post("/sendmails", async (req, res) => {
-    const {
-        to,
-        email,
-        body,
-        subject
-    } = req.body
-
-    const content = {
-        to,
-        from: email,
-        subject,
-        html: body
-    }
-
-    try {
-        await sgMail.send(content)
-        return res.status(200).send('Message sent successfully.')
-    } catch (error) {
-        // console.log('ERROR', error.message)
-        return res.status(400).send('Message not sent.')
-    }
-
-})
+router.post("/order_vendor", OrderToVendor)
+router.post("/order_customer", OrderToCustomer)
 
 router.post("/contact", async (req, res) => {
 
