@@ -14,7 +14,10 @@
     "log": "pm2 log",
     "migrate": "knex migrate:latest",
     "unmigrate": "knex migrate:rollback",
-    "makemigraton": "knex migrate:make --name"
+    "makemigraton": "knex migrate:make --name",
+    "runmigration": "knex migrate:latest",
+    "makeseed": "knex seed:make --name",
+    "runseed": "knex seed:run"
   },
   "repository": {
     "type": "git",
