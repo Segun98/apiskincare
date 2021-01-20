@@ -16,6 +16,8 @@ const {
 const compression = require('compression')
 const helmet = require("helmet");
 const host = require("./bin/environment")
+// const knex = require("./knex/db.js");
+
 
 app.use(cors({
     origin: host,
