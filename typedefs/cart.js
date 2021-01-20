@@ -10,7 +10,8 @@ module.exports = gql `
     prod_creator_id: ID
     customer_id: ID
     created_at: String
-
+    user_id:ID
+    
     #nested query
     product:productsRes
     productCreator:usersRes

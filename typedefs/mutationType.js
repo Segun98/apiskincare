@@ -44,12 +44,13 @@ module.exports = gql `
 
         #CART Section 
         addToCart(
+          user_id:ID,
           customer_id:ID!,
           product_id: ID!,
           prod_creator_id: ID!, quantity:Int):customRes
 
           deleteFromCart(id:ID):customRes
-          deleteAllFromCart(customer_id:ID!):customRes
+          deleteAllFromCart(customer_id:ID!, user_id:ID):customRes
           updateCart(id:ID, quantity:Int):customRes
 
           # ORDERS

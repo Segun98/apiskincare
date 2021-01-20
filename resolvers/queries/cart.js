@@ -1,20 +1,14 @@
-const {
-    verifyJwt
-} = require("../../helpers/auth/middlewares")
-
-//fetch all cart items of a customer via token payload
-
-
 module.exports = {
     async getCartItems(_, {
-        customer_id
+        customer_id,
+        user_id
     }, {
         pool
     }) {
 
         try {
 
-            const cart = await pool.query(`select * from cart where customer_id = $1 order by created_at desc`, [customer_id])
+            const cart = await pool.query(`select * from cart where customer_id = $1 or user_id=$2 order by created_at desc`, [customer_id, user_id])
 
             return cart.rows
 

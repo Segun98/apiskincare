@@ -17,7 +17,8 @@
     "makemigraton": "knex migrate:make --name",
     "runmigration": "knex migrate:latest",
     "makeseed": "knex seed:make --name",
-    "runseed": "knex seed:run"
+    "runseed": "knex seed:run",
+    "runinprod": "knex migrate:latest --env production"
   },
   "repository": {
     "type": "git",

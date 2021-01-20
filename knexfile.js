@@ -27,7 +27,12 @@ module.exports = {
 
   production: {
     client: 'pg',
-    connection: `${process.env.CONNECTION_STRING}?ssl=false`,
+    connection: {
+      connectionString: process.env.CONNECTION_STRING,
+      ssl: {
+        rejectUnauthorized: false
+      }
+    },
     searchPath: ['knex', 'public'],
     migrations: {
       directory: './knex/migrations',

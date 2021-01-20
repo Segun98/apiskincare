@@ -1,20 +1,16 @@
-const {
-    verifyJwt
-} = require("../../helpers/auth/middlewares");
-
-
 module.exports = {
     async addToCart(_, {
         customer_id,
         product_id,
         prod_creator_id,
-        quantity
+        quantity,
+        user_id
     }, {
         pool
     }) {
 
         //checks if item exists. I cant write "where product_id..." cos table contains everyone's cart
-        const product = await pool.query(`select product_id from cart where customer_id = $1`, [customer_id])
+        const product = await pool.query(`select product_id from cart where customer_id = $1 or user_id =$2`, [customer_id, user_id])
         product.rows.forEach(p => {
             if (p.product_id === product_id) {
                 throw new Error("Item is already in Cart")
@@ -27,11 +23,14 @@ module.exports = {
             product_id,
             prod_creator_id,
             quantity,
-            customer_id) values($1,$2,$3,$4)`, [
+            customer_id,
+            user_id
+            ) values($1,$2,$3,$4, $5)`, [
                 product_id,
                 prod_creator_id,
                 quantity,
-                customer_id
+                customer_id,
+                user_id
             ])
 
             return {
@@ -86,14 +85,15 @@ module.exports = {
 
     //After successfull payment
     async deleteAllFromCart(_, {
-        customer_id
+        customer_id,
+        user_id
     }, {
         pool
     }) {
 
         try {
 
-            await pool.query(`delete from cart where customer_id = $1`, [customer_id])
+            await pool.query(`delete from cart where customer_id = $1 or user_id=$2`, [customer_id, user_id])
 
             return {
                 message: "Cart cleared!"
