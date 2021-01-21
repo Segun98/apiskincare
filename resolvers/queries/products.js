@@ -10,6 +10,9 @@ module.exports = {
     }) {
         try {
             const product = await pool.query(`select * from products where name_slug = $1`, [name_slug])
+            if (product.rows.length === 0) {
+                throw new Error(404)
+            }
             return product.rows[0]
         } catch (err) {
             throw new Error(err.message)

@@ -1,22 +1,23 @@
 const sgMail = require('@sendgrid/mail');
-
+const host = require("../bin/environment")
 sgMail.setApiKey(process.env.SEND_GRID_KEY);
 
 async function OrderToVendor(req, res) {
     const {
         to,
-        body
+        body,
+        orderId
     } = req.body
 
     const content = {
         to,
-        from: "shegunolanitori@gmail.com",
-        subject: "New Order on Tadlace",
+        from: "orders@tadlace.com",
+        subject: `New Order on Tadlace. Order ID: ${orderId}`,
         html: `
         Dear vendor,
         You have a new order! A dispatch rider will contact you soon! Please always ensure your product is in good condition and is always readily available.
         
-        Check your public stores page to your physical products in stock corresponds with the number online
+        Rememeber to check your public store page to ensure your physical products in stock corresponds with the number online
         `
     }
 
@@ -33,18 +34,79 @@ async function OrderToCustomer(req, res) {
     const {
         to,
         body,
-        name
+        name,
+        orderId
     } = req.body
 
     const content = {
         to,
-        from: "shegunolanitori@gmail.com",
-        subject: "Your Order has been successfuly placed!",
+        from: "orders@tadlace.com",
+        subject: `Your Order has been successfuly placed! Order ID: ${orderId}`,
+        html: `<body><p>Hello ${name}</p>,
+        <p>Your Order has been successfuly placed!</p>
+        <ul>
+        <li>Track your Orders in your <a href="${host[0]}/customer/orders">orders page</a></li>
+        <li>Orders are usually delivered within 2-4 days from order date</li>
+        <li><a href="${host[0]}/customer#contact"> Contact us</a> if there is any issue</li>
+        <li>Happy shopping!</li>
+        </ul>
+        <p></p>
+        <p>Thank you</p>
+        </body>
+        `
+    }
+
+    try {
+        await sgMail.send(content)
+        return res.status(200).send('Message sent successfully.')
+    } catch (error) {
+        // console.log('ERROR', error.message)
+        return res.status(400).send('Message not sent.')
+    }
+}
+
+async function CanceledOrderCustomer(req, res) {
+    const {
+        to,
+        name,
+        orderId
+    } = req.body
+
+    const content = {
+        to,
+        from: "orders@tadlace.com",
+        subject: `Canceled Order Notice! Order ID: ${orderId}`,
         html: `
         Hello ${name},
-        <p>Your Order has been successfuly placed!</p>
-        <p>Expect to recieve your product(s) within 2-4 days from order date</p>
+        <p>Order with id: ${orderId} has been successfuly canceled</p>
+        <p>Expect to be refunded within 3 days</p>
         <p>Thank you</p>
+        `
+    }
+
+    try {
+        await sgMail.send(content)
+        return res.status(200).send('Message sent successfully.')
+    } catch (error) {
+        // console.log('ERROR', error.message)
+        return res.status(400).send('Message not sent.')
+    }
+}
+
+async function CanceledOrderVendor(req, res) {
+    const {
+        to,
+        name,
+        orderId
+    } = req.body
+
+    const content = {
+        to,
+        from: "orders@tadlace.com",
+        subject: `Canceled Order Notice! Order ID: ${orderId}`,
+        html: `
+        Hello ${name},
+        <p>Order with id: ${orderId} has been canceled</p>
         `
     }
 
@@ -59,5 +121,7 @@ async function OrderToCustomer(req, res) {
 
 module.exports = {
     OrderToVendor,
-    OrderToCustomer
+    OrderToCustomer,
+    CanceledOrderVendor,
+    CanceledOrderCustomer
 }

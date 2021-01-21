@@ -6,14 +6,30 @@ const sgMail = require('@sendgrid/mail');
 
 const {
     OrderToCustomer,
-    OrderToVendor
+    OrderToVendor,
+    CanceledOrderCustomer,
+    CanceledOrderVendor
 } = require("../controllers/OrdersController")
 
+const {
+    passwordReset,
+    changePassword,
+    getEmail
+} = require("../controllers/PasswordResetController")
 
 sgMail.setApiKey(process.env.SEND_GRID_KEY);
 
 router.post("/order_vendor", OrderToVendor)
 router.post("/order_customer", OrderToCustomer)
+
+router.post("/cancel_customer", CanceledOrderCustomer)
+router.post("/cancel_vendor", CanceledOrderVendor)
+
+router.post("/password_reset", passwordReset)
+router.post("/change_password", changePassword)
+
+//get email from id in params from front end
+router.post("/get_email", getEmail)
 
 router.post("/contact", async (req, res) => {
 
