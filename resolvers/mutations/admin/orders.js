@@ -2,12 +2,16 @@
 const {
     verifyJwt
 } = require("../../../helpers/auth/middlewares")
+const {
+    inTransit
+} = require("../../../helpers/emails/email_functions")
 
 
 module.exports = {
 
     async setInTransit(_, {
-        order_id
+        order_id,
+        email
     }, {
         pool,
         req
@@ -22,7 +26,7 @@ module.exports = {
         }
         try {
             await pool.query(`update order_status set in_transit=$2 where order_id = $1`, [order_id, 'true'])
-
+            inTransit(order_id, email)
             return {
                 message: "Order is in transit!"
             }

@@ -15,43 +15,62 @@ async function welcomeVendor(name, email) {
     <h3>Please Read Our Terms and Privacy Policy <a href=${host[0]}/term>Click Here</a></h3>
     <br>
     <p>Regards,</p>
-    <h3>Segun</h3>
-    </body>`
+    <h3>Segun</h3></body>`
   }
 
   try {
     await sgMail.send(content)
   } catch (error) {
-    console.log(error.message)
+    // console.log(error.message)
   }
 
 }
 
 async function welcomeCustomer(name, email) {
-
   const content = {
     to: email,
     from: "welcome@tadlace.com",
     subject: "Welcome To Tadlace!",
-    html: `<body><p>Hello ${name}</p>,
+    html: `<body><p>Hello ${name},</p>
     <p>Welcome to Tadlace! We are thrilled to have you</p>
     <p>Our goal is to provide you a seamless and modern shopping experience.</p>
     <p>Start shopping for quality face. body and hair products</p>
     <br>
     <p>Regards,</p>
-    <h3>Segun</h3>
-    </body>`
+    <h3>Segun</h3></body>`
   }
 
   try {
     await sgMail.send(content)
   } catch (error) {
-    console.log(error.message)
+    // console.log(error.message)
   }
 
 }
 
+async function inTransit(order_id, email) {
+  const content = {
+    to: email,
+    from: "orders@tadlace.com",
+    subject: "Tadlace - Your Order is in Transit",
+    html: `<body><p>Your Order with order id: ${order_id} is in transit</p>,
+    <p>It will be delivered today!</p>
+    <br>
+    <p>Our goal is to provide you a seamless and modern shopping experience.</p>
+    <br>
+    <p>Regards,</p>
+    <h3>Segun</h3></body>`
+  }
+
+  try {
+    await sgMail.send(content)
+  } catch (error) {
+    // console.log(error.message)
+  }
+}
+
 module.exports = {
   welcomeCustomer,
-  welcomeVendor
+  welcomeVendor,
+  inTransit
 }
