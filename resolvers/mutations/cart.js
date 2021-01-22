@@ -14,8 +14,9 @@ module.exports = {
         const product = await knex
             .from('cart')
             .select('product_id').where({
-                customer_id,
-                user_id
+                customer_id
+            }).orWhere({
+                user_id: user_id ? user_id : null
             })
 
         product.forEach(p => {
@@ -30,7 +31,7 @@ module.exports = {
                 prod_creator_id,
                 quantity,
                 customer_id,
-                user_id
+                user_id: user_id ? user_id : null
             })
 
             return {
