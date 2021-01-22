@@ -6,32 +6,32 @@ module.exports = {
         quantity,
         user_id
     }, {
-        pool
+        knex
     }) {
 
-        //checks if item exists. I cant write "where product_id..." cos table contains everyone's cart
-        const product = await pool.query(`select product_id from cart where customer_id = $1 or user_id =$2`, [customer_id, user_id])
-        product.rows.forEach(p => {
+        //checks if item exists.
+
+        const product = await knex
+            .from('cart')
+            .select('product_id').where({
+                customer_id,
+                user_id
+            })
+
+        product.forEach(p => {
             if (p.product_id === product_id) {
                 throw new Error("Item is already in Cart")
             }
         })
 
         try {
-
-            await pool.query(`insert into cart (
-            product_id,
-            prod_creator_id,
-            quantity,
-            customer_id,
-            user_id
-            ) values($1,$2,$3,$4, $5)`, [
+            await knex('cart').insert({
                 product_id,
                 prod_creator_id,
                 quantity,
                 customer_id,
                 user_id
-            ])
+            })
 
             return {
                 message: "Item has been added to cart"

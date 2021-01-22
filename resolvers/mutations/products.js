@@ -31,7 +31,8 @@ module.exports = {
         available_qty
     }, {
         pool,
-        req
+        req,
+        knex
     }) {
         verifyJwt(req)
         // #checks for role, should only be vendor 
@@ -45,28 +46,17 @@ module.exports = {
         let random = Math.floor(Math.random() * 4935)
 
         try {
-            await pool.query(`
-                insert into products     
-                (name,
-                name_slug,
+            await knex('products').insert({
+                name,
+                name_slug: `${slugCheck.rows.length > 0? name_slug+random : name_slug}`,
                 description,
                 price,
                 category,
                 main_category,
                 images,
                 available_qty,
-                creator_id) 
-                values($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
-                [name,
-                    `${slugCheck.rows.length > 0? name_slug+random : name_slug}`,
-                    description,
-                    price,
-                    category,
-                    main_category,
-                    images,
-                    available_qty,
-                    req.payload.user_id
-                ])
+                creator_id: req.payload.user_id
+            })
 
             return {
                 message: "Product successfully added"
@@ -92,8 +82,8 @@ module.exports = {
         available_qty,
         creator_id
     }, {
-        pool,
-        req
+        req,
+        knex
     }) {
         verifyJwt(req)
 
@@ -102,15 +92,20 @@ module.exports = {
         }
 
         try {
-            await pool.query(`update products set name = $2, description = $3, price = $4, category = $5,main_category=$6, images = $7, in_stock = $8, available_qty=$9 where id = $1`, [id, name,
-                description,
-                price,
-                category,
-                main_category,
-                images,
-                in_stock,
-                available_qty
-            ])
+            await knex('products')
+                .where({
+                    id
+                })
+                .update({
+                    name,
+                    description,
+                    price,
+                    category,
+                    main_category,
+                    images,
+                    in_stock,
+                    available_qty
+                })
 
             return {
                 message: "Product successfully updated"

@@ -16,7 +16,7 @@ const {
 const compression = require('compression')
 const helmet = require("helmet");
 const host = require("./bin/environment")
-// const knex = require("./knex/db.js");
+const knex = require("./knex/db.js");
 
 
 app.use(cors({
@@ -76,6 +76,7 @@ const server = new ApolloServer({
         req,
         res,
         pool,
+        knex,
         loaderOne: new single(),
         loaderTwo: new multiple()
     }),

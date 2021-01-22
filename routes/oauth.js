@@ -9,7 +9,7 @@ const {
     welcomeCustomer
 } = require("../helpers/emails/email_functions");
 const bcrypt = require("bcryptjs")
-
+const knex = require("../knex/db")
 
 router.post("/oauth/login", async (req, res) => {
 
@@ -42,26 +42,28 @@ router.post("/oauth/login", async (req, res) => {
             const salt = await bcrypt.genSalt(10)
             const hashedpassword = await bcrypt.hash(password, salt)
             //Password is google user id to track people signing up with google
-            await pool.query(`INSERT INTO users (first_name,last_name,email,password,phone,role,pending,business_name,
-                            business_name_slug,
-                            business_address,
-                            business_image,
-                            business_bio,
-                            customer_address) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)`,
-                [first_name, last_name, email, hashedpassword, null, 'customer', 'false', null,
-                    null,
-                    null,
-                    null,
-                    'Google',
-                    null
-                ]);
+            await knex('users').insert({
+                first_name,
+                last_name,
+                email,
+                password: hashedpassword,
+                phone: null,
+                role: 'customer',
+                pending: 'false',
+                business_name: null,
+                business_name_slug: null,
+                business_address: null,
+                business_image: null,
+                business_bio: 'Google',
+                customer_address: null
+            })
 
             //welcome email
-            await welcomeCustomer(first_name, email)
+            welcomeCustomer(first_name, email)
 
             //get the new user from DB
 
-            const user = await pool.query("select * from users where email = $1", [email]);
+            const user = await pool.query("select id, role from users where email = $1", [email]);
 
             const token = createToken(user) //returns access token
 
@@ -97,21 +99,25 @@ router.post("/oauth/signup", async (req, res) => {
 
         const salt = await bcrypt.genSalt(10)
         const hashedpassword = await bcrypt.hash(password, salt)
+
         //Password is google user id to track people signing up with google
-        await pool.query(`INSERT INTO users (first_name,last_name,email,password,phone,role,pending,business_name,
-                            business_name_slug,
-                            business_address,
-                            business_image,
-                            business_bio,
-                            customer_address) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)`,
-            [first_name, last_name, email, hashedpassword, null, 'customer', 'false', null,
-                null,
-                null,
-                null,
-                'Google',
-                null
-            ]);
-        await welcomeCustomer(first_name, email)
+        await knex('users').insert({
+            first_name,
+            last_name,
+            email,
+            password: hashedpassword,
+            phone: null,
+            role: 'customer',
+            pending: 'false',
+            business_name: null,
+            business_name_slug: null,
+            business_address: null,
+            business_image: null,
+            business_bio: 'Google',
+            customer_address: null
+        })
+
+        welcomeCustomer(first_name, email)
         res.send("signup successful")
     } catch (err) {
         res.send(err.message)

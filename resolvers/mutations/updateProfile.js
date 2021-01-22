@@ -13,24 +13,28 @@ async function updateProfile(_, {
     customer_address,
     online
 }, {
-    pool,
-    req
+    req,
+    knex
 }) {
     verifyJwt(req)
 
     try {
-        await pool.query(`update users set first_name = $2,
-        last_name = $3,
-        phone = $4,
-        business_name = $5,
-        business_address = $6,
-        business_image = $7,
-        business_bio = $8,
-        customer_address = $9, online = $10 where id = $1`,
-            [req.payload.user_id, first_name, last_name,
-                phone, business_name, business_address,
-                business_image, business_bio, customer_address, online
-            ])
+
+        await knex('users')
+            .where({
+                id: req.payload.user_id
+            })
+            .update({
+                first_name,
+                last_name,
+                phone,
+                business_name,
+                business_address,
+                business_image,
+                business_bio,
+                customer_address,
+                online
+            })
 
         return {
             message: "User successfully updated"

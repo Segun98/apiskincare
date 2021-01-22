@@ -30,7 +30,8 @@ async function signUp(_, {
     business_bio,
     customer_address
 }, {
-    pool
+    pool,
+    knex
 }) {
     try {
         const validation = registerValidation({
@@ -57,25 +58,27 @@ async function signUp(_, {
         const hashedpassword = await bcrypt.hash(password, salt)
 
         // Signing up a user 
-        await pool.query(`INSERT INTO users (first_name,last_name,email,password,phone,role,pending,business_name,
+        await knex('users').insert({
+            first_name,
+            last_name,
+            email,
+            password: hashedpassword,
+            phone,
+            role,
+            pending,
+            business_name,
             business_name_slug,
             business_address,
             business_image,
             business_bio,
-            customer_address) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)`,
-            [first_name, last_name, email, hashedpassword, phone, role, pending, business_name,
-                business_name_slug,
-                business_address,
-                business_image,
-                business_bio,
-                customer_address
-            ]);
+            customer_address
+        })
 
         // welcome emails
         if (role === "vendor") {
-            await welcomeVendor(first_name, email)
+            welcomeVendor(first_name, email)
         } else if (role === "customer") {
-            await welcomeCustomer(first_name, email)
+            welcomeCustomer(first_name, email)
         }
 
         return {
@@ -92,7 +95,6 @@ async function logIn(_, {
     email,
     password
 }, {
-    res,
     pool
 }) {
     try {

@@ -13,12 +13,10 @@ async function OrderToVendor(req, res) {
         to,
         from: "orders@tadlace.com",
         subject: `New Order on Tadlace. Order ID: ${orderId}`,
-        html: `
-        Dear vendor,
-        You have a new order! A dispatch rider will contact you soon! Please always ensure your product is in good condition and is always readily available.
-        
-        Rememeber to check your public store page to ensure your physical products in stock corresponds with the number online
-        `
+        html: `<body><p>Dear vendor,</p>
+        <p>You have a new order! A dispatch rider will contact you soon! Please always ensure your product is in good condition and is always readily available.</p>
+        <p>Remember to check your public store page to ensure your physical products in stock corresponds with the number online</p>
+        </body>`
     }
 
     try {
@@ -52,8 +50,7 @@ async function OrderToCustomer(req, res) {
         </ul>
         <p></p>
         <p>Thank you</p>
-        </body>
-        `
+        </body>`
     }
 
     try {
@@ -76,12 +73,11 @@ async function CanceledOrderCustomer(req, res) {
         to,
         from: "orders@tadlace.com",
         subject: `Canceled Order Notice! Order ID: ${orderId}`,
-        html: `
-        Hello ${name},
-        <p>Order with id: ${orderId} has been successfuly canceled</p>
+        html: `<body><p>Dear ${name? name: "customer"},</p>
+        <p>Your order with id: ${orderId} has been successfuly canceled</p>
         <p>Expect to be refunded within 3 days</p>
         <p>Thank you</p>
-        `
+        </body>`
     }
 
     try {
@@ -96,7 +92,6 @@ async function CanceledOrderCustomer(req, res) {
 async function CanceledOrderVendor(req, res) {
     const {
         to,
-        name,
         orderId
     } = req.body
 
@@ -104,10 +99,9 @@ async function CanceledOrderVendor(req, res) {
         to,
         from: "orders@tadlace.com",
         subject: `Canceled Order Notice! Order ID: ${orderId}`,
-        html: `
-        Hello ${name},
+        html: `<body><p>Dear Vendor,</p>
         <p>Order with id: ${orderId} has been canceled</p>
-        `
+        <p>You will be contacted by our customare care for  further details if any</p></body>`
     }
 
     try {

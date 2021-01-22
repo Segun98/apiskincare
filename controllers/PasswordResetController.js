@@ -6,6 +6,7 @@ const {
 } = require("uuid")
 const bcrypt = require("bcryptjs")
 
+sgMail.setApiKey(process.env.SEND_GRID_KEY);
 
 module.exports = {
     //step one , generate a unique id and send to their email

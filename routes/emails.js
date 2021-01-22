@@ -25,12 +25,14 @@ router.post("/order_customer", OrderToCustomer)
 router.post("/cancel_customer", CanceledOrderCustomer)
 router.post("/cancel_vendor", CanceledOrderVendor)
 
+//password reset flow
 router.post("/password_reset", passwordReset)
-router.post("/change_password", changePassword)
-
 //get email from id in params from front end
 router.post("/get_email", getEmail)
+router.post("/change_password", changePassword)
 
+
+//contact emails
 router.post("/contact", async (req, res) => {
 
     const {
