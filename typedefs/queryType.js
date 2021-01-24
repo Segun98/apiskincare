@@ -42,7 +42,7 @@ module.exports = gql `
     editProductPage(id:ID!):productsRes
 
     #Cart, gets all cart items for customer
-    getCartItems(customer_id:ID! user_id:ID):[cart]
+    getCartItems(customer_id:ID user_id:ID):[cart]
 
     #Orders
     getCustomerOrders:[orders]

@@ -19,6 +19,7 @@ module.exports = {
                 user_id: user_id ? user_id : null
             })
 
+        //don't change error message
         product.forEach(p => {
             if (p.product_id === product_id) {
                 throw new Error("Item is already in Cart")
