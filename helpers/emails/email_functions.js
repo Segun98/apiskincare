@@ -50,7 +50,7 @@ async function welcomeCustomer(name, email) {
 
 async function inTransit(order_id, email) {
   const content = {
-    to: email,
+    to: "shegunolanitori@gmail.com",
     from: "orders@tadlace.com",
     subject: "Tadlace - Your Order is in Transit",
     html: `<body><p>Your Order with order id: ${order_id} is in transit</p>,

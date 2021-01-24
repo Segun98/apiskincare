@@ -10,7 +10,7 @@ async function OrderToVendor(req, res) {
     } = req.body
 
     const content = {
-        to,
+        to: "shegunolanitori@gmail.com",
         from: "orders@tadlace.com",
         subject: `New Order on Tadlace. Order ID: ${orderId}`,
         html: `<body><p>Dear vendor,</p>
@@ -37,7 +37,7 @@ async function OrderToCustomer(req, res) {
     } = req.body
 
     const content = {
-        to,
+        to: "shegunolanitori@gmail.com",
         from: "orders@tadlace.com",
         subject: `Your Order has been successfuly placed! Order ID: ${orderId}`,
         html: `<body><p>Hello ${name}</p>,
@@ -70,7 +70,7 @@ async function CanceledOrderCustomer(req, res) {
     } = req.body
 
     const content = {
-        to,
+        to: "shegunolanitori@gmail.com",
         from: "orders@tadlace.com",
         subject: `Canceled Order Notice! Order ID: ${orderId}`,
         html: `<body><p>Dear ${name? name: "customer"},</p>
@@ -96,7 +96,7 @@ async function CanceledOrderVendor(req, res) {
     } = req.body
 
     const content = {
-        to,
+        to: "shegunolanitori@gmail.com",
         from: "orders@tadlace.com",
         subject: `Canceled Order Notice! Order ID: ${orderId}`,
         html: `<body><p>Dear Vendor,</p>
