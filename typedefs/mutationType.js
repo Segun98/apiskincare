@@ -87,6 +87,9 @@ module.exports = gql `
           deleteProductAdmin(id:ID!):customRes
           #toggle in stock/out of stock
           setOutOfStock(id:ID! in_stock:String!):customRes
+
+          #payment
+          withdraw(user_id:ID! amount:Int! password:String!):customRes
     }
   
   `;

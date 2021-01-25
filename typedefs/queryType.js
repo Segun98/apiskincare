@@ -56,6 +56,9 @@ module.exports = gql `
     products(limit:Int): [productsRes],
 
 
+    #payments
+    withdrawals(user_id:ID!):customRes
+
    }
   
   `;

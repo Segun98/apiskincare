@@ -3,6 +3,7 @@ require('dotenv').config();
 module.exports = {
   development: {
     client: 'pg',
+    debug: true,
     connection: process.env.DB_URL,
     searchPath: ['knex', 'public'],
     migrations: {

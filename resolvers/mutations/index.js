@@ -9,9 +9,11 @@ const {
 const productsMutations = require('./products')
 const cartMutations = require('./cart')
 const ordersMutations = require('./orders')
+const withdraw = require('./payment')
 const adminOrdersMutations = require("./admin/orders")
 const adminUsersMutations = require("./admin/users")
 const adminProductsMutations = require("./admin/products")
+
 
 module.exports = {
     signUp,
@@ -20,6 +22,7 @@ module.exports = {
     ...productsMutations,
     ...cartMutations,
     ...ordersMutations,
+    ...withdraw,
     ...adminOrdersMutations,
     ...adminUsersMutations,
     ...adminProductsMutations

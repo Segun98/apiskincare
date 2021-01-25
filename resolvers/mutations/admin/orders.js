@@ -79,6 +79,9 @@ module.exports = {
         try {
             //note, don't set paid to false
             await pool.query(`update order_status set delivered = $2, in_transit = $2, canceled = $3, canceled_reason = $4 where order_id = $1`, [order_id, 'false', 'true', canceled_reason])
+            return {
+                message: "Order has been canceled"
+            }
         } catch (err) {
             throw new Error(err.message)
         }
