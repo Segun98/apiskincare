@@ -89,7 +89,7 @@ module.exports = gql `
           setOutOfStock(id:ID! in_stock:String!):customRes
 
           #payment
-          withdraw(user_id:ID! amount:Int! password:String!):customRes
+          withdraw(user_id:ID! amount:Int! recipient:String! transfer_id:String!):customRes
     }
   
   `;

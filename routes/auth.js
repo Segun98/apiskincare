@@ -6,6 +6,8 @@ const {
     createRefreshToken,
     createToken
 } = require("../helpers/auth/create-tokens")
+const bcrypt = require('bcryptjs')
+const knex = require('../knex/db.js')
 
 //refresh token before access token expires
 router.post("/refreshtoken", cookieParser(), async (req, res) => {
@@ -63,6 +65,24 @@ router.post("/refreshtoken", cookieParser(), async (req, res) => {
         role: user.rows[0].role
     })
 
+})
+
+
+router.post("/password_check", async (req, res) => {
+    try {
+        const pass = await knex('users').where({
+            id: req.body.user_id
+        }).select('password')
+
+        const validPass = await bcrypt.compare(req.body.password, pass[0].password)
+        if (!validPass) {
+            return res.status(404).send("wrong password")
+        }
+
+        res.send("password correct!")
+    } catch (error) {
+        res.status(404).send(error.message)
+    }
 })
 
 router.post("/logout", (req, res, next) => {
