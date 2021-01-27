@@ -53,7 +53,7 @@ async function inTransit(order_id, email) {
     to: "shegunolanitori@gmail.com",
     from: "orders@tadlace.com",
     subject: "Tadlace - Your Order is in Transit",
-    html: `<body><p>Your Order with order id: ${order_id} is in transit</p>,
+    html: `<body><p>Your Order with order id: ${order_id} is in transit</p>
     <p>It will be delivered today!</p>
     <br>
     <p>Our goal is to provide you a seamless and modern shopping experience.</p>

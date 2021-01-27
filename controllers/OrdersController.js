@@ -40,7 +40,7 @@ async function OrderToCustomer(req, res) {
         to: "shegunolanitori@gmail.com",
         from: "orders@tadlace.com",
         subject: `Your Order has been successfuly placed! Order ID: ${orderId}`,
-        html: `<body><p>Hello ${name}</p>,
+        html: `<body><p>Hello ${name},</p>
         <p>Your Order has been successfuly placed!</p>
         <ul>
         <li>Track your Orders in your <a href="${host[0]}/customer/orders">orders page</a></li>
@@ -101,7 +101,7 @@ async function CanceledOrderVendor(req, res) {
         subject: `Canceled Order Notice! Order ID: ${orderId}`,
         html: `<body><p>Dear Vendor,</p>
         <p>Order with id: ${orderId} has been canceled</p>
-        <p>You will be contacted by our customare care for  further details if any</p></body>`
+        <p>You will be contacted by our customare care for further details if any</p></body>`
     }
 
     try {
