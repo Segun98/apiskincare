@@ -27,7 +27,7 @@ router.post("/cancel_vendor", CanceledOrderVendor)
 
 //password reset flow
 router.post("/password_reset", passwordReset)
-//get email from id in params from front end
+//get email from id in params from front end. should be get request but whatevs
 router.post("/get_email", getEmail)
 router.post("/change_password", changePassword)
 

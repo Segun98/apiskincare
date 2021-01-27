@@ -68,6 +68,7 @@ router.post("/refreshtoken", cookieParser(), async (req, res) => {
 })
 
 
+//confirms user password . used in wallet withdrawal page
 router.post("/password_check", async (req, res) => {
     try {
         const pass = await knex('users').where({

@@ -25,22 +25,6 @@ app.use(cors({
 }));
 
 
-// app.get("/test", async (req, res) => {
-//     try {
-//         const raw = knex("users").select("first_name").where({
-//             first_name: "Jon"
-//         }).toSQL().toNative()
-//         console.log(raw);
-//         const data = await knex("users").select("first_name").where({
-//             first_name: "Jon"
-//         })
-//         res.json(data)
-
-//     } catch (error) {
-//         res.json(error.message)
-//     }
-// })
-
 //REST ROUTES
 const oAuth = require("./routes/oauth")
 const auth = require("./routes/auth")
