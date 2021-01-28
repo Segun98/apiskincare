@@ -18,6 +18,10 @@ module.exports = {
         let id = req.payload && req.payload.user_id
         try {
             const users = await pool.query(`select * from users where business_name_slug = $1`, [business_name_slug])
+            if (users.rows.length === 0) {
+                throw new Error("404")
+            }
+
             return {
                 ...users.rows[0],
                 jwt_user_id: id
