@@ -30,6 +30,7 @@ const oAuth = require("./routes/oauth")
 const auth = require("./routes/auth")
 const email = require("./routes/emails")
 const upload = require("./helpers/image-upload/upload")
+const pay = require("./routes/payment")
 
 //secure app by setting http headers
 app.use(helmet())
@@ -49,6 +50,7 @@ app.use("/api", upload)
 app.use("/api", email)
 //oauth authentication
 app.use("/api", oAuth)
+app.use("/api", pay)
 
 const server = new ApolloServer({
     typeDefs,
