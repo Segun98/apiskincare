@@ -1,5 +1,6 @@
 const sgMail = require('@sendgrid/mail');
 const host = require("../bin/environment")
+const knex = require("../knex/db")
 sgMail.setApiKey(process.env.SEND_GRID_KEY);
 
 async function OrderToVendor(req, res) {
@@ -9,17 +10,30 @@ async function OrderToVendor(req, res) {
         orderId
     } = req.body
 
-    const content = {
-        to: "shegunolanitori@gmail.com",
-        from: "orders@tadlace.com",
-        subject: `New Order on Tadlace. Order ID: ${orderId}`,
-        html: `<body><p>Dear vendor,</p>
-        <p>You have a new order! A dispatch rider will contact you soon! Please always ensure your product is in good condition and is always readily available.</p>
-        <p>Remember to check your public store page to ensure your physical products in stock corresponds with the number online</p>
-        </body>`
-    }
+
 
     try {
+        const vendor = await knex("users").select("business_name").where({
+            email: to
+        })
+
+        const orders = await knex("orders").select("name").where({
+            order_id: orderId
+        })
+
+        const content = {
+            to: "shegunolanitori@gmail.com",
+            from: "orders@tadlace.com",
+            subject: `New Order on Tadlace. Order ID: ${orderId}`,
+            html: `<body><p>Dear ${vendor[0].business_name || vendor},</p>
+            <p>You have a new order! A dispatch rider will contact you soon! Please always ensure your product is in good condition and is always readily available.</p>
+            <ul>
+            <li>Product: ${orders[0].name}</li>
+            </ul>
+            <p>Remember to check your public store page to ensure your physical products in stock corresponds with the number online</p>
+            </body>`
+        }
+
         await sgMail.send(content)
         return res.status(200).send('Message sent successfully.')
     } catch (error) {
@@ -36,24 +50,30 @@ async function OrderToCustomer(req, res) {
         orderId
     } = req.body
 
-    const content = {
-        to: "shegunolanitori@gmail.com",
-        from: "orders@tadlace.com",
-        subject: `Your Order has been successfuly placed! Order ID: ${orderId}`,
-        html: `<body><p>Hello ${name},</p>
-        <p>Your Order has been successfuly placed!</p>
-        <ul>
-        <li>Track your Orders in your <a href="${host[0]}/customer/orders">orders page</a></li>
-        <li>Orders are usually delivered within 2-4 days from order date</li>
-        <li><a href="${host[0]}/customer#contact"> Contact us</a> if there is any issue</li>
-        <li>Happy shopping!</li>
-        </ul>
-        <p></p>
-        <p>Thank you</p>
-        </body>`
-    }
+
 
     try {
+        const orders = await knex("orders").select("name").where({
+            order_id: orderId
+        })
+
+        const content = {
+            to: "shegunolanitori@gmail.com",
+            from: "orders@tadlace.com",
+            subject: `Your Order has been successfuly placed! Order ID: ${orderId}`,
+            html: `<body><p>Hello ${name},</p>
+            <p>Your Order: ${orders[0].name} has been successfuly placed!</p>
+            <ul>
+            <li>Track your Orders in your <a href="${host[0]}/customer/orders">orders page</a></li>
+            <li>Orders are usually delivered within 2-4 days from order date</li>
+            <li><a href="${host[0]}/customer#contact"> Contact us</a> if there is any issue</li>
+            <li>Happy shopping!</li>
+            </ul>
+            <p></p>
+            <p>Thank you</p>
+            </body>`
+        }
+
         await sgMail.send(content)
         return res.status(200).send('Message sent successfully.')
     } catch (error) {
