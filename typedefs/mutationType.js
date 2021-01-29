@@ -21,7 +21,7 @@ module.exports = gql `
         name_slug:String!,
         description: String,
         price:Int!,
-        category: String,
+        category: [String],
         main_category:String,
         images: [String],
        available_qty:Int!
@@ -32,7 +32,7 @@ module.exports = gql `
         name: String!,
         description: String,
         price:Int!,
-        category: String,
+        category: [String],
         main_category:String,
         images: [String],
         available_qty:Int,
