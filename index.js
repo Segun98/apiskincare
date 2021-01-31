@@ -18,7 +18,9 @@ const helmet = require("helmet");
 const host = require("./bin/environment")
 const knex = require("./knex/db.js");
 // const test = require("./bin/dbtest")
+// const test = require("./bin/test")
 // test()
+
 
 app.use(cors({
     origin: host,

@@ -49,3 +49,60 @@
 // //   .then(res => res.json())
 // //   .then(json => console.log(json))
 // //   .catch(err => console.error('error:' + err));
+
+
+// const fetch = require('node-fetch');
+
+// function test() {
+
+//     let url = 'https://api.sendgrid.com/v3/marketing/contacts';
+
+//     let options = {
+//         method: 'POST',
+//         headers: {
+//             Accept: 'application/json',
+//             'Content-Type': 'application/json',
+//             Authorization: `Bearer ${process.env.SEND_GRID_KEY}`
+//         },
+//         body: JSON.stringify({
+//             contacts: [{
+//                 email: "4topsports@gmail.com",
+//                 first_name: "4top",
+//                 last_name: "Sports",
+//             }]
+//         })
+//     };
+
+//     fetch(url, options)
+//         .then(res => console.log(res))
+//         .then(data => console.log(data))
+//         .catch(err => console.error('error:' + err));
+
+// }
+
+const axios = require("axios");
+
+async function test() {
+    let data = {
+        contacts: [{
+            email: "4topsports@gmail.com",
+            first_name: "4top",
+            last_name: "Sports",
+        }]
+    }
+    try {
+        const res = await axios.post(`https://api.sendgrid.com/v3/marketing/contacts`, {
+            headers: {
+                Authorization: `Bearer ${process.env.SEND_GRID_KEY}`,
+            },
+            data
+        });
+        console.log(res);
+    } catch (error) {
+        console.log(error.response.data);
+    }
+
+
+}
+
+module.exports = test
