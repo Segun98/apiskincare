@@ -1,5 +1,6 @@
 const sgMail = require('@sendgrid/mail');
 const host = require("../../bin/environment")
+const knex = require("../../knex/db")
 
 sgMail.setApiKey(process.env.SEND_GRID_KEY);
 
@@ -49,17 +50,30 @@ async function welcomeCustomer(name, email) {
 }
 
 async function inTransit(order_id, email) {
+
+  const order = await knex("orders").select("name", "quantity").where({
+    order_id
+  })
+
+  let products = ""
+  for (let i = 0; i < order.length; i++) {
+    products += `<li style="font-weight:bold" >${order[i].name} x ${order[i].quantity}</li> `
+  }
+
   const content = {
     to: "shegunolanitori@gmail.com",
     from: "orders@tadlace.com",
     subject: "Tadlace - Your Order is in Transit",
     html: `<body><p>Your Order with order id: ${order_id} is in transit</p>
     <p>It will be delivered today!</p>
+
+    <h6>Details</h6>
+    <ul>
+    ${products}
+    </ul>
+
     <br>
-    <p>Our goal is to provide you a seamless and modern shopping experience.</p>
-    <br>
-    <p>Regards,</p>
-    <h3>Segun</h3></body>`
+    <p>Our goal is to provide you a seamless and modern shopping experience.</p></body>`
   }
 
   try {

@@ -29,7 +29,7 @@ async function OrderToVendor(req, res) {
             <p>A dispatch rider will contact you soon! Please always ensure your product is in good condition and is always readily available.</p>
 
             <ul>
-            <li>Product: ${order.name} - Quantity: ${order.quantity}</li>
+            <li style="font-weight:bold">Product: ${order.name} - Quantity: ${order.quantity}</li>
             </ul>
 
             <p>Remember to check your public store page to ensure your available physical products in stock corresponds with the number online</p>
