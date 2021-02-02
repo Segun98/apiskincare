@@ -38,6 +38,7 @@ type order_status {
     refund:String,
     paid:String,
     delivery_date:String
+    created_at:String
 }
 
    type idRes{

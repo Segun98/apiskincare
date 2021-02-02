@@ -17,16 +17,25 @@ const compression = require('compression')
 const helmet = require("helmet");
 const host = require("./bin/environment")
 const knex = require("./knex/db.js");
+const rateLimit = require("express-rate-limit");
 // const test = require("./bin/dbtest")
 // const test = require("./bin/test")
 // test()
 
-
+app.set('trust proxy', 1);
 app.use(cors({
     origin: host,
     credentials: true
 }));
 
+//rate limiter
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100 // limit each IP to 100 requests per windowMs
+});
+
+//  apply to all requests
+app.use(limiter);
 
 //REST ROUTES
 const oAuth = require("./routes/oauth")

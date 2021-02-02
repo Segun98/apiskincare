@@ -22,6 +22,10 @@ module.exports = {
                 throw new Error("404")
             }
 
+            // if (users.rows[0].id !== id) {
+            //     console.log("hello world");
+            // }
+
             return {
                 ...users.rows[0],
                 jwt_user_id: id

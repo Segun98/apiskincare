@@ -52,7 +52,7 @@ async function welcomeCustomer(name, email) {
 async function inTransit(order_id, email) {
 
   const order = await knex("orders").select("name", "quantity").where({
-    order_id
+    order_id: order_id
   })
 
   let products = ""
@@ -67,7 +67,7 @@ async function inTransit(order_id, email) {
     html: `<body><p>Your Order with order id: ${order_id} is in transit</p>
     <p>It will be delivered today!</p>
 
-    <h6>Details</h6>
+    <p>Details</p>
     <ul>
     ${products}
     </ul>

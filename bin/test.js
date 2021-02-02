@@ -99,7 +99,7 @@ async function test() {
         });
         console.log(res);
     } catch (error) {
-        console.log(error.response.data);
+        console.log(error.message);
     }
 
 
