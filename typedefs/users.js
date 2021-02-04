@@ -45,6 +45,7 @@ type users{
     featured:String,
     completed_qty:Int
     jwt_user_id: String
+    views: Int
     #nested resolver
     usersProducts:[productsRes]
     customerOrders:[orders]

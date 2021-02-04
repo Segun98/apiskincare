@@ -7,7 +7,7 @@ const {
  first arg expects parent, second expects inputs, third - context
 */
 module.exports = {
-    //public profile
+    //public store  
     async user(_, {
         business_name_slug
     }, {
@@ -22,9 +22,9 @@ module.exports = {
                 throw new Error("404")
             }
 
-            // if (users.rows[0].id !== id) {
-            //     console.log("hello world");
-            // }
+            if (users.rows[0].id !== id) {
+                await pool.query(`update users set views = views + 1 where id = $1`, [users.rows[0].id])
+            }
 
             return {
                 ...users.rows[0],
