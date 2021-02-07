@@ -77,7 +77,7 @@ module.exports = {
             throw new Error("Unauthorised, you are not an admin")
         }
         try {
-            //note, don't set paid to false
+            //note, don't set paid to false -  i guess cos refund "True" helps to know which is not our revenue
             await pool.query(`update order_status set delivered = $2, in_transit = $2, canceled = $3, canceled_reason = $4 where order_id = $1`, [order_id, 'false', 'true', canceled_reason])
             return {
                 message: "Order has been canceled"
