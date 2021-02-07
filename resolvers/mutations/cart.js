@@ -6,26 +6,31 @@ module.exports = {
         quantity,
         user_id
     }, {
-        knex
+        knex,
+        pool
     }) {
 
         //checks if item exists.
 
-        const product = await knex
-            .from('cart')
-            .select('product_id').where({
-                customer_id
-            }).orWhere({
-                user_id: user_id ? user_id : null
+        // const product = await knex
+        //     .from('cart')
+        //     .select('product_id').where({
+        //         customer_id
+        //     }).orWhere({
+        //         user_id: user_id ? user_id : null
+        //     })
+
+        const product = await pool.query(`select product_id from cart where customer_id = $1 or user_id = $2`, [customer_id, user_id])
+
+
+        if (product.rows.length > 0) {
+            //don't change error message
+            product.rows.forEach(p => {
+                if (p.product_id === product_id) {
+                    throw new Error("Item is already in Cart")
+                }
             })
-
-        //don't change error message
-        product.forEach(p => {
-            if (p.product_id === product_id) {
-                throw new Error("Item is already in Cart")
-            }
-        })
-
+        }
         try {
             await knex('cart').insert({
                 product_id,
