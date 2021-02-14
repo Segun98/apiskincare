@@ -15,9 +15,11 @@ async function OrderToVendor(req, res) {
             email: to
         })
 
-        // const orders = await knex("orders").select("name").where({
-        //     order_id: orderId
-        // })
+        let products = ""
+        for (let i = 0; i < order.length; i++) {
+            products += `<li style="font-weight:bold" >Product: ${order[i].name} - Quantity: ${order[i].quantity}</li> `
+        }
+
 
         const content = {
             to: "shegunolanitori@gmail.com",
@@ -29,7 +31,7 @@ async function OrderToVendor(req, res) {
             <p>A dispatch rider will contact you soon! Please always ensure your product is in good condition and is always readily available.</p>
 
             <ul>
-            <li style="font-weight:bold">Product: ${order.name} - Quantity: ${order.quantity}</li>
+            ${products}
             </ul>
 
             <p>Remember to check your public store page to ensure your available physical products in stock corresponds with the number online</p>
@@ -55,7 +57,7 @@ async function OrderToCustomer(req, res) {
 
     let products = ""
     for (let i = 0; i < order.length; i++) {
-        products += `<li style="font-weight:bold" >${order[i].name} x ${order[i].quantity}</li> `
+        products += `<li style="font-weight:bold" >Product: ${order[i].name} - Quantity: ${order[i].quantity}</li> `
     }
 
     try {
