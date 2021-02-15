@@ -28,6 +28,10 @@ async function OrderToVendor(req, res) {
             html: `
             <head>
 <style>
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;600&display=swap");
+body{
+    font-family: "Quicksand", sans-serif !important;
+}
 table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
@@ -91,6 +95,10 @@ async function OrderToCustomer(req, res) {
             html: `
             <head>
 <style>
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;600&display=swap");
+body{
+    font-family: "Quicksand", sans-serif !important;
+}
 table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
