@@ -35,8 +35,8 @@ module.exports = gql `
     search(query:String! limit:Int offset:Int sort:String):[productsRes]
 
     #by category
-    byCategory(category:String! limit:Int offset:Int): [productsRes]
-    mainCategory(main_category:String limit:Int offset:Int): [productsRes]
+    byCategory(category:String! limit:Int offset:Int sort:String): [productsRes]
+    mainCategory(main_category:String limit:Int offset:Int sort:String): [productsRes]
 
     #gets a product but for edit
     editProductPage(id:ID!):productsRes
