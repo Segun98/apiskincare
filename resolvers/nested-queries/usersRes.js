@@ -20,14 +20,13 @@ async function usersProducts(parent, {}, {
                 return acc;
             }, {})
 
-            return ids.map(id => lookup[id] || null)
+            return ids.map(id => lookup[id] || [])
         })
 
         return loader.load(parent.id)
 
         // let products = await loaderTwo.load("products", "creator_id", parent.id)
         // return products
-
     } catch (err) {
         // console.log(err);
         throw new Error(err.message)
@@ -70,7 +69,7 @@ async function homeProducts(parent, {}, {
                 return acc;
             }, {})
 
-            return ids.map(id => lookup[id] || null)
+            return ids.map(id => lookup[id] || [])
         })
 
         return loader.load(parent.id)
