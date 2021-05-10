@@ -127,6 +127,7 @@ module.exports = {
             const products = await pool.query(`SELECT p.id, p.name, p.name_slug, p.price, p.images FROM products p INNER JOIN users u on p.creator_id = u.id WHERE p.name ILIKE '%${query}%' or p.description ILIKE '%${query}%' and u.online = $1 and p.available_qty > 0 and p.in_stock = $1 ORDER BY ${sortQuery} u.completed_qty DESC LIMIT ${limit} OFFSET ${offset}`, ["true"])
             return products.rows
         } catch (err) {
+            console.log(err.message)
             throw new Error(err.message)
         }
     }
