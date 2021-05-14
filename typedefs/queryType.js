@@ -45,7 +45,7 @@ module.exports = gql `
     getCartItems(customer_id:ID user_id:ID prod_creator_id:ID):[cart]
 
     #Orders
-    getCustomerOrders:[orders]
+    getCustomerOrders(limit:Int):[orders]
     getVendorOrders(limit:Int):[orders]
     getOrder(order_id:ID!):[orders]
 

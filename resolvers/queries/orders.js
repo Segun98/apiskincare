@@ -4,7 +4,7 @@ const {
 } = require("../../helpers/auth/middlewares")
 
 module.exports = {
-    async getCustomerOrders(_, {}, {
+    async getCustomerOrders(_, {limit}, {
         pool,
         req
     }) {
@@ -13,7 +13,7 @@ module.exports = {
             throw new Error("Unauthorised")
         }
         try {
-            const result = await pool.query(`SELECT * from orders o INNER JOIN order_status os ON os.order_id = o.order_id WHERE o.customer_id = $1 and os.paid = $2 ORDER BY o.created_at DESC`, [req.payload.user_id, 'true'])
+            const result = await pool.query(`SELECT * from orders o INNER JOIN order_status os ON os.order_id = o.order_id WHERE o.customer_id = $1 and os.paid = $2 ORDER BY o.created_at DESC LIMIT ${limit}`, [req.payload.user_id, 'true'])
             return result.rows
         } catch (err) {
             throw new Error(err.message)
