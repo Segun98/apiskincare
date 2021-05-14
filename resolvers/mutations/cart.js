@@ -100,8 +100,7 @@ module.exports = {
     }) {
 
         try {
-
-            await pool.query(`delete from cart where customer_id = $1 and user_id=$2 and prod_creator_id =$3`, [customer_id, user_id, prod_creator_id])
+            await pool.query(`delete from cart where customer_id = $1 and prod_creator_id =$2`, [customer_id, prod_creator_id])
 
             return {
                 message: "Cart cleared!"
