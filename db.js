@@ -4,6 +4,7 @@ const {
 
 const prodConnection = new Pool({
     connectionString: process.env.CONNECTION_STRING,
+    max: 20,
     ssl: {
         rejectUnauthorized: false
     }
@@ -14,6 +15,7 @@ const devConnection = new Pool({
     password: process.env.PGPASSWORD,
     host: process.env.PGHOST,
     port: process.env.PGPORT,
-    database: process.env.PGDATABASE
+    database: process.env.PGDATABASE,
+    max: 20
 })
 module.exports = process.env.NODE_ENV === "production" ? prodConnection : devConnection

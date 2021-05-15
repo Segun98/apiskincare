@@ -5,6 +5,10 @@ module.exports = {
     client: 'pg',
     debug: false,
     connection: process.env.DB_URL,
+    pool: {
+      min: 2,
+      max: 20
+    },
     searchPath: ['knex', 'public'],
     migrations: {
       directory: './knex/migrations',
@@ -33,6 +37,10 @@ module.exports = {
       ssl: {
         rejectUnauthorized: false
       }
+    },
+    pool: {
+      min: 2,
+      max: 20
     },
     searchPath: ['knex', 'public'],
     migrations: {
