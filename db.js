@@ -4,6 +4,7 @@ const {
 
 const prodConnection = new Pool({
     connectionString: process.env.CONNECTION_STRING,
+    min:2,
     max: 20,
     ssl: {
         rejectUnauthorized: false
