@@ -18,11 +18,15 @@ const helmet = require("helmet");
 const host = require("./bin/environment")
 const knex = require("./knex/db.js");
 const rateLimit = require("express-rate-limit");
+require("express-async-errors");
+
 // const test = require("./bin/dbtest")
 // const test = require("./bin/test")
 // test()
 // console.log(host)
 // app.set('trust proxy', 1);
+
+
 app.use(cors({
     origin: host,
     credentials: true

@@ -48,6 +48,7 @@
     "datauri": "^3.0.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-async-errors": "^3.1.1",
     "express-rate-limit": "^5.2.3",
     "graphql": "^15.5.0",
     "graphql-middleware": "^4.0.2",
