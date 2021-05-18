@@ -40,8 +40,23 @@ async function customerOrders(parent, {}, {
         if (!parent.id) {
             throw new Error("404")
         }
-        let orders = await loaderTwo.load("orders", "customer_id", parent.id)
-        return orders
+        let loader = new DataLoader(async ids => {
+            const rows = await knex.select("*").from("orders").whereIn("customer_id", ids)
+
+            const lookup = rows.reduce((acc, row) => {
+                if (!(row["customer_id"] in acc)) {
+                    acc[row["customer_id"]] = []
+                }
+                acc[row["customer_id"]].push(row)
+                return acc;
+            }, {})
+
+            return ids.map(id => lookup[id] || [])
+        })
+
+        return loader.load(parent.id)
+        // let orders = await loaderTwo.load("orders", "customer_id", parent.id)
+        // return orders
 
     } catch (err) {
         throw new Error(err.message)

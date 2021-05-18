@@ -9,6 +9,7 @@ module.exports.single = class single {
         return loader.load(id)
     }
     findLoader(table, column) {
+
         if (!this.loaders[table]) {
             this.loaders[table] = new DataLoader(async (keys) => {
                 // I hated doing this. it was a custom code I made to produce"$1,$2..." dynamically for the sql query
@@ -18,7 +19,6 @@ module.exports.single = class single {
                 }
                 let fin = sol.join(",")
                 const res = await pool.query(`select * from ${table} where ${column} in (${fin})`, keys)
-
                 //lookup object that find corressponding id
                 // const lookup = []
                 // res.rows.map(u => {

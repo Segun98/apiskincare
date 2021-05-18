@@ -1,8 +1,21 @@
+const DataLoader = require('dataloader')
+const knex = require('../../knex/db')
+
 async function creator(parent, {}, {
     loaderOne
 }) {
     try {
-        return loaderOne.load("users", "id", parent.creator_id)
+        let loader = new DataLoader(async ids => {
+            const rows = await knex.select("*").from("users").whereIn("id", ids)
+            const lookup= rows.reduce((acc, row) => {
+                acc[row["id"]] = row;
+                return acc;
+            }, {})
+            return ids.map(id => lookup[id] || [])
+        })
+
+        return loader.load(parent.creator_id)
+        // return loaderOne.load("users", "id", parent.creator_id)
     } catch (err) {
         throw new Error(err.message)
     }
