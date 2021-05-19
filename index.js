@@ -77,8 +77,8 @@ const server = new ApolloServer({
     }) => ({
         req,
         res,
-        pool,
         knex,
+        pool,
         // loaderOne: new single(),
         // loaderTwo: new multiple()
     }),

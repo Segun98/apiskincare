@@ -6,10 +6,10 @@ module.exports = {
     async product(_, {
         name_slug
     }, {
-        pool
+        knex
     }) {
         try {
-            const product = await pool.query(`select * from products where name_slug = $1`, [name_slug])
+            const product = await knex.raw(`select * from products where name_slug = ?`, [name_slug])
             if (product.rows.length === 0) {
                 throw new Error(404)
             }
@@ -22,17 +22,18 @@ module.exports = {
     async featuredProducts(_, {
         limit
     }, {
-        pool
+        knex
     }) {
         try {
             // const start = Date.now()
             // console.time('Query time');
-            const users = await pool.query(`SELECT p.id, p.name, p.name_slug, p.price, p.images from products p INNER JOIN users u on p.creator_id= u.id where p.featured = $1 and u.online = $1 and p.available_qty > 0 and p.in_stock = $1 ORDER BY p.created_at desc limit ${limit}`, ['true'])
+            const users = await knex.raw(`SELECT p.id, p.name, p.name_slug, p.price, p.images from products p INNER JOIN users u on p.creator_id= u.id where p.featured = ? and u.online = ? and p.available_qty > 0 and p.in_stock = ? ORDER BY p.created_at desc limit ${limit}`, Array(3).fill('true'))
             // console.timeEnd('Query time');
             // console.log(Date.now() - start);
             return users.rows
 
         } catch (err) {
+            console.log(err.message);
             throw new Error(err.message)
         }
     },
