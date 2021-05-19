@@ -6,8 +6,9 @@ module.exports = {
     debug: false,
     connection: process.env.DB_URL,
     pool: {
+      min:0,
       max: 20,
-      idleTimeoutMillis: 1000
+      // idleTimeoutMillis: 6000
     },
     searchPath: ['knex', 'public'],
     migrations: {
@@ -39,8 +40,9 @@ module.exports = {
       }
     },
     pool: {
+      min:0,
       max: 20,
-      idleTimeoutMillis: 1000
+      // idleTimeoutMillis: 6000
     },
     searchPath: ['knex', 'public'],
     migrations: {
