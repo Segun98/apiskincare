@@ -3,6 +3,7 @@ const {
     verifyStore
 } = require("../../helpers/auth/middlewares");
 
+
 /*
  first arg expects parent, second expects inputs, third - context
 */
@@ -37,13 +38,15 @@ module.exports = {
 
     //gets user by id
     async getUser(_, {}, {
-        pool,
+        knex,
         req
     }) {
         verifyJwt(req)
         try {
-            const user = await pool.query(`select * from users where id = $1`, [req.payload.user_id])
-            return user.rows[0]
+            const user =  await knex('users').where({
+                id:req.payload.user_id
+            })
+            return user[0]
 
         } catch (err) {
             throw new Error(err.message)
