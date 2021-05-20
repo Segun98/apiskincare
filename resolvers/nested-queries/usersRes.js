@@ -1,31 +1,33 @@
+//@ts-check
+
 const DataLoader = require('dataloader')
-const knex = require('../../knex/db')
+// const knex = require('../../knex/db')
 
 async function usersProducts(parent, {}, {
-    // loaderTwo
+    loaderTwo
 }) {
     try {
         if (!parent.id) {
             throw new Error("404")
         }
 
-        let loader = new DataLoader(async ids => {
-            const rows = await knex.select("*").from("products").whereIn("creator_id", ids)
+        // let loader = new DataLoader(async ids => {
+        //     const rows = await knex.select("*").from("products").whereIn("creator_id", ids)
 
-            const lookup = rows.reduce((acc, row) => {
-                if (!(row["creator_id"] in acc)) {
-                    acc[row["creator_id"]] = []
-                }
-                acc[row["creator_id"]].push(row)
-                return acc;
-            }, {})
+        //     const lookup = rows.reduce((acc, row) => {
+        //         if (!(row["creator_id"] in acc)) {
+        //             acc[row["creator_id"]] = []
+        //         }
+        //         acc[row["creator_id"]].push(row)
+        //         return acc;
+        //     }, {})
 
-            return ids.map(id => lookup[id] || [])
-        })
+        //     return ids.map(id => lookup[id] || [])
+        // })
 
-        return loader.load(parent.id)
+        // return loader.load(parent.id)
 
-        // let products = await loaderTwo.load("products", "creator_id", parent.id)
+        return loaderTwo.load("products", "creator_id", parent.id)
         // return products
     } catch (err) {
         // console.log(err);
@@ -40,23 +42,22 @@ async function customerOrders(parent, {}, {
         if (!parent.id) {
             throw new Error("404")
         }
-        let loader = new DataLoader(async ids => {
-            const rows = await knex.select("*").from("orders").whereIn("customer_id", ids)
+        // let loader = new DataLoader(async ids => {
+        //     const rows = await knex.select("*").from("orders").whereIn("customer_id", ids)
 
-            const lookup = rows.reduce((acc, row) => {
-                if (!(row["customer_id"] in acc)) {
-                    acc[row["customer_id"]] = []
-                }
-                acc[row["customer_id"]].push(row)
-                return acc;
-            }, {})
+        //     const lookup = rows.reduce((acc, row) => {
+        //         if (!(row["customer_id"] in acc)) {
+        //             acc[row["customer_id"]] = []
+        //         }
+        //         acc[row["customer_id"]].push(row)
+        //         return acc;
+        //     }, {})
 
-            return ids.map(id => lookup[id] || [])
-        })
+        //     return ids.map(id => lookup[id] || [])
+        // })
 
-        return loader.load(parent.id)
-        // let orders = await loaderTwo.load("orders", "customer_id", parent.id)
-        // return orders
+        // return loader.load(parent.id)
+        return loaderTwo.load("orders", "customer_id", parent.id)
 
     } catch (err) {
         throw new Error(err.message)
@@ -67,27 +68,27 @@ async function customerOrders(parent, {}, {
 
 //works specifically with homeProducts query
 async function homeProducts(parent, {}, {
-    // pool
+    pool
 }) {
     try {
-        // let products = await pool.query(`select * from products where creator_id= $1 order by created_at desc limit 8`, [parent.id])
-        // return products.rows
+        let products = await pool.query(`select * from products where creator_id= $1 order by created_at desc limit 8`, [parent.id])
+        return products.rows
 
-        let loader = new DataLoader(async ids => {
-            const rows = await knex.select("*").from("products").whereIn("creator_id", ids).limit(8)
+        // let loader = new DataLoader(async ids => {
+        //     const rows = await knex.select("*").from("products").whereIn("creator_id", ids).limit(8)
 
-            const lookup = rows.reduce((acc, row) => {
-                if (!(row["creator_id"] in acc)) {
-                    acc[row["creator_id"]] = []
-                }
-                acc[row["creator_id"]].push(row)
-                return acc;
-            }, {})
+        //     const lookup = rows.reduce((acc, row) => {
+        //         if (!(row["creator_id"] in acc)) {
+        //             acc[row["creator_id"]] = []
+        //         }
+        //         acc[row["creator_id"]].push(row)
+        //         return acc;
+        //     }, {})
 
-            return ids.map(id => lookup[id] || [])
-        })
+        //     return ids.map(id => lookup[id] || [])
+        // })
 
-        return loader.load(parent.id)
+        // return loader.load(parent.id)
     } catch (err) {
         throw new Error(err.message)
     }

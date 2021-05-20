@@ -9,10 +9,10 @@ const typeDefs = require("./typedefs")
 const resolvers = require("./resolvers")
 const pool = require("./db")
 const cors = require("cors")
-// const {
-//     single,
-//     multiple
-// } = require('./helpers/dataloader')
+const {
+    single,
+    multiple
+} = require('./helpers/dataloader')
 const compression = require('compression')
 const helmet = require("helmet");
 const host = require("./bin/environment")
@@ -79,8 +79,8 @@ const server = new ApolloServer({
         res,
         knex,
         pool,
-        // loaderOne: new single(),
-        // loaderTwo: new multiple()
+        loaderOne: new single(),
+        loaderTwo: new multiple()
     }),
 });
 

@@ -4,7 +4,7 @@ const {
 
 const prodConnection = new Pool({
     connectionString: process.env.CONNECTION_STRING,
-    max: 20,
+    // max: 20,
     // min:2,
     // idleTimeoutMillis:6000,
     ssl: {
@@ -18,7 +18,7 @@ const devConnection = new Pool({
     host: process.env.PGHOST,
     port: process.env.PGPORT,
     database: process.env.PGDATABASE,
-    max: 20,
+    // max: 20,
     // min:2,
     // idleTimeoutMillis:6000,
 

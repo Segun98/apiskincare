@@ -9,8 +9,8 @@ const {
     customerOrders,
     homeProducts
 } = require("./nested-queries/usersRes")
-const DataLoader = require('dataloader')
-const knex = require('../knex/db')
+// const DataLoader = require('dataloader')
+// const knex = require('../knex/db')
 
 
 module.exports = {
@@ -44,50 +44,50 @@ module.exports = {
         async productCreator(parent, {}, {
             loaderOne
         }) {
-            let loader = new DataLoader(async ids => {
-                const rows = await knex.select("*").from("users").whereIn("id", ids)
-                const lookup= rows.reduce((acc, row) => {
-                    acc[row["id"]] = row;
-                    return acc;
-                }, {})
-                return ids.map(id => lookup[id] || [])
-            })
+            // let loader = new DataLoader(async ids => {
+            //     const rows = await knex.select("*").from("users").whereIn("id", ids)
+            //     const lookup= rows.reduce((acc, row) => {
+            //         acc[row["id"]] = row;
+            //         return acc;
+            //     }, {})
+            //     return ids.map(id => lookup[id] || [])
+            // })
     
-            return loader.load(parent.prod_creator_id)
-            // return loaderOne.load("users", "id", parent.prod_creator_id)
+            // return loader.load(parent.prod_creator_id)
+            return loaderOne.load("users", "id", parent.prod_creator_id)
         },
         async product(parent, {}, {
             loaderOne
         }) {
-            let loader = new DataLoader(async ids => {
-                const rows = await knex.select("*").from("products").whereIn("id", ids)
-                const lookup= rows.reduce((acc, row) => {
-                    acc[row["id"]] = row;
-                    return acc;
-                }, {})
-                return ids.map(id => lookup[id] || [])
-            })
+            // let loader = new DataLoader(async ids => {
+            //     const rows = await knex.select("*").from("products").whereIn("id", ids)
+            //     const lookup= rows.reduce((acc, row) => {
+            //         acc[row["id"]] = row;
+            //         return acc;
+            //     }, {})
+            //     return ids.map(id => lookup[id] || [])
+            // })
     
-            return loader.load(parent.product_id)
+            // return loader.load(parent.product_id)
     
-            // return loaderOne.load("products", "id", parent.product_id)
+            return loaderOne.load("products", "id", parent.product_id)
         }
     },
     orders: {
         async orderStatus(parent, {}, {
             loaderOne,
         }) {
-            let loader = new DataLoader(async ids => {
-                const rows = await knex.select("*").from("order_status").whereIn("order_id", ids)
-                const lookup= rows.reduce((acc, row) => {
-                    acc[row["order_id"]] = row;
-                    return acc;
-                }, {})
-                return ids.map(id => lookup[id] || [])
-            })
+            // let loader = new DataLoader(async ids => {
+            //     const rows = await knex.select("*").from("order_status").whereIn("order_id", ids)
+            //     const lookup= rows.reduce((acc, row) => {
+            //         acc[row["order_id"]] = row;
+            //         return acc;
+            //     }, {})
+            //     return ids.map(id => lookup[id] || [])
+            // })
     
-            return loader.load(parent.order_id)
-            // return loaderOne.load("order_status", "order_id", parent.order_id)
+            // return loader.load(parent.order_id)
+            return loaderOne.load("order_status", "order_id", parent.order_id)
         }
     }
 
