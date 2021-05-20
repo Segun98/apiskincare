@@ -1,11 +1,12 @@
 const { verifyJwt, verifyStore } = require("../../helpers/auth/middlewares");
+const knex = require("../../knex/db");
 
 /*
  first arg expects parent, second expects inputs, third - context
 */
 module.exports = {
   //public store
-  async user(_, { business_name_slug }, { req, knex }) {
+  async user(_, { business_name_slug }, { req }) {
     verifyStore(req);
     let id = req.payload && req.payload.user_id;
     try {
@@ -16,25 +17,25 @@ module.exports = {
       if (user.length === 0) {
         throw new Error("404");
       }
-      
+
       if (user[0].id !== id) {
-          await knex.raw(`update users set views = views + 1 where id = ?`, [
-              user[0].id,
-            ]);
-        }
+        await knex.raw(`update users set views = views + 1 where id = ?`, [
+          user[0].id,
+        ]);
+      }
 
       return {
         ...user[0],
         jwt_user_id: id,
       };
     } catch (err) {
-        console.log(err);
+      console.log(err);
       throw new Error(err.message);
     }
   },
 
   //gets user by id
-  async getUser(_, {}, { knex, req }) {
+  async getUser(_, {}, { req }) {
     verifyJwt(req);
     try {
       const user = await knex("users").where({
@@ -46,7 +47,7 @@ module.exports = {
     }
   },
 
-  async editUserPage(_, { id }, { knex, req }) {
+  async editUserPage(_, { id }, { req }) {
     verifyJwt(req);
 
     if (req.payload.role_id !== "vendor") {
@@ -61,12 +62,12 @@ module.exports = {
   },
 
   //customer profile.
-  async customerProfile(_, {}, { knex, req }) {
+  async customerProfile(_, {}, { req }) {
     verifyJwt(req);
     try {
-      const user= await knex("users").where({
-          id:req.payload.user_id
-      })
+      const user = await knex("users").where({
+        id: req.payload.user_id,
+      });
 
       return user[0];
     } catch (err) {
@@ -75,7 +76,7 @@ module.exports = {
   },
 
   //gets all stores.
-  async getStores(_, { query, limit, offset }, { knex }) {
+  async getStores(_, { query, limit, offset }, {}) {
     try {
       //conditional. add search query only if there's a query value coming in
       let cond = query ? `and business_name ilike '%${query}%'` : "";
@@ -90,7 +91,7 @@ module.exports = {
   },
 
   //works specifically with homeProducts in usersRes file in nested queries. fetch the stores to be displayed in the home page
-  async homeStores(_, {}, { knex }) {
+  async homeStores(_, {}, {}) {
     try {
       const stores = await knex.raw(
         `select * from users where role = ? and pending = ? and online = ? order by completed_qty desc limit 8`,

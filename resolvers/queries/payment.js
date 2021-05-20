@@ -1,12 +1,12 @@
 const {
     verifyJwt
 } = require("../../helpers/auth/middlewares")
+const knex = require("../../knex/db");
 
 module.exports = {
     async withdrawals(_, {
         user_id
     }, {
-        knex,
         req
     }) {
         verifyJwt(req)

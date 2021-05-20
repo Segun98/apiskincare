@@ -24,10 +24,9 @@ async function creator(parent, {}, {
 
 //get related products
 async function related(parent, {}, {
-    pool
 }) {
     try {
-        const result = await pool.query(`select p.id, p.name, p.name_slug, p.price, p.images from products p inner join users u on p.creator_id = u.id where $1 = ANY(p.category) and p.available_qty > 0 and p.in_stock = $2 and u.online = $2 order by u.completed_qty desc limit 8`, [parent.category[0], "true"])
+        const result = await knex.raw(`select p.id, p.name, p.name_slug, p.price, p.images from products p inner join users u on p.creator_id = u.id where ? = ANY(p.category) and p.available_qty > 0 and p.in_stock = ? and u.online = ? order by u.completed_qty desc limit 8`, [parent.category[0], "true", "true"])
         return result.rows
 
     } catch (err) {
