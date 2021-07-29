@@ -1,21 +1,16 @@
 // @ts - check
-const express = require('express');
+const express = require("express");
 const app = express();
-require('dotenv').config()
-const {
-    ApolloServer
-} = require('apollo-server-express');
-const typeDefs = require("./typedefs")
-const resolvers = require("./resolvers")
-const pool = require("./db")
-const cors = require("cors")
-const {
-    single,
-    multiple
-} = require('./helpers/dataloader')
-const compression = require('compression')
+require("dotenv").config();
+const { ApolloServer } = require("apollo-server-express");
+const typeDefs = require("./typedefs");
+const resolvers = require("./resolvers");
+const pool = require("./db");
+const cors = require("cors");
+const { single, multiple } = require("./helpers/dataloader");
+const compression = require("compression");
 const helmet = require("helmet");
-const host = require("./bin/environment")
+const host = require("./bin/environment");
 const knex = require("./knex/db.js");
 const rateLimit = require("express-rate-limit");
 require("express-async-errors");
@@ -26,74 +21,74 @@ require("express-async-errors");
 // console.log(host)
 // app.set('trust proxy', 1);
 
-
-app.use(cors({
+app.use(
+  cors({
     origin: host,
-    credentials: true
-}));
+    credentials: true,
+  })
+);
 
 //rate limiter
 const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 50 // limit each IP to 100 requests per windowMs
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 50, // limit each IP to 100 requests per windowMs
 });
 
 // //  apply to all requests
 app.use(limiter);
 
 //REST ROUTES
-const oAuth = require("./routes/oauth")
-const auth = require("./routes/auth")
-const email = require("./routes/emails")
-const upload = require("./helpers/image-upload/upload")
-const pay = require("./routes/payment")
+const oAuth = require("./routes/oauth");
+const auth = require("./routes/auth");
+const email = require("./routes/emails");
+const upload = require("./helpers/image-upload/upload");
+const pay = require("./routes/payment");
 
 //secure app by setting http headers
-app.use(helmet())
+app.use(helmet());
 // compress all responses
 app.use(compression());
-app.use(express.json())
-app.use(express.urlencoded({
-    extended: false
-}))
-
+app.use(express.json());
+app.use(
+  express.urlencoded({
+    extended: false,
+  })
+);
 
 //refresh-token and logout routes
-app.use("/api", auth)
+app.use("/api", auth);
 //image upload route
-app.use("/api", upload)
+app.use("/api", upload);
 //emails
-app.use("/api", email)
+app.use("/api", email);
 //oauth authentication
-app.use("/api", oAuth)
-app.use("/api", pay)
+app.use("/api", oAuth);
+app.use("/api", pay);
 
 const server = new ApolloServer({
-    typeDefs,
-    resolvers,
-    context: ({
-        req,
-        res
-    }) => ({
-        req,
-        res,
-        knex,
-        pool,
-        loaderOne: new single(),
-        loaderTwo: new multiple()
-    }),
+  typeDefs,
+  resolvers,
+  context: ({ req, res }) => ({
+    req,
+    res,
+    knex,
+    pool,
+    loaderOne: new single(),
+    loaderTwo: new multiple(),
+  }),
 });
-
 
 server.applyMiddleware({
-    app,
-    cors: false
+  app,
+  cors: false,
 });
 
-const PORT = process.env.PORT || 4000
+const PORT = process.env.PORT || 4000;
 
-app.listen({
-        port: PORT
-    }, () =>
+app.listen(
+  {
+    port: PORT,
+  },
+  () =>
     console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)
 );
